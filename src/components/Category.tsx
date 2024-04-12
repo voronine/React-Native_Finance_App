@@ -140,7 +140,6 @@ const Category = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Модальное окно для добавления категории доходов */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -161,7 +160,6 @@ const Category = () => {
         </View>
       </Modal>
 
-      {/* Модальное окно для добавления категории расходов */}
       <Modal
         animationType="slide"
         transparent={true}

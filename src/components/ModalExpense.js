@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Calendar } from 'react-native-calendars';
 
-const ModalComponent = ({ visible, onClose }) => {
+const ModalExpense = ({ visible, onClose }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [enteredAmount, setEnteredAmount] = useState('');
   const [categories, setCategories] = useState([]);
@@ -54,16 +54,16 @@ const ModalComponent = ({ visible, onClose }) => {
       }
 
       const newTransaction = { category: selectedCategory, amount: parseFloat(enteredAmount), date: selectedDate };
-      const storedData = await AsyncStorage.getItem('transactions');
+      const storedData = await AsyncStorage.getItem('transactionsExpense');
       const existingTransactions = storedData ? JSON.parse(storedData) : [];
       const updatedTransactions = [...existingTransactions, newTransaction];
 
-      await AsyncStorage.setItem('transactions', JSON.stringify(updatedTransactions));
-      console.log('transactions', JSON.stringify(updatedTransactions));
+      await AsyncStorage.setItem('transactionsExpense', JSON.stringify(updatedTransactions));
+      console.log('transactions Expense', JSON.stringify(updatedTransactions));
       onClose();
       setEnteredAmount('');
     } catch (error) {
-      console.error('Error saving transaction:', error);
+      console.error('Error saving transaction Expense:', error);
     }
   };
 
@@ -95,7 +95,7 @@ const ModalComponent = ({ visible, onClose }) => {
             <Ionicons name="close" size={24} color="gray" />
           </TouchableOpacity>
           <View style={styles.containerModalTitle}>
-            <Text style={styles.modalTitle}>Добавить доходы</Text>
+            <Text style={styles.modalTitle}>Добавить расходы</Text>
           </View>
           <View style={styles.viewCenter}>
           <Text style={styles.chooseCategory}>Выберите категорию</Text>
@@ -115,7 +115,7 @@ const ModalComponent = ({ visible, onClose }) => {
               </TouchableOpacity>
             ))}
           </View>
-          <Text style={styles.addIncomeText}>Добавить нужную сумму доходов</Text>
+          <Text style={styles.addIncomeText}>Добавить нужную сумму расходов</Text>
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
@@ -127,7 +127,7 @@ const ModalComponent = ({ visible, onClose }) => {
             />
           </View>
 
-          <Text style={styles.addIncomeText}>Выберите дату дохода</Text>
+          <Text style={styles.addIncomeText}>Выберите дату расходов</Text>
           <View style={styles.dateInput}>
             <TouchableOpacity style={styles.dateSelectButton} onPress={toggleCalendar}>
               <Text style={styles.dateText}>{selectedDate || 'День.Месяц'}</Text>
@@ -270,4 +270,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ModalComponent;
+export default ModalExpense;

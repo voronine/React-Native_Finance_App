@@ -1,10 +1,9 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const Menu = ({ currentPage }) => {
   const navigation = useNavigation();
-  // const route = useRoute();
 
   const handlePress = (screenName) => {
     navigation.navigate(screenName);
@@ -58,14 +57,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   buttonText: {
-    fontFamily: 'Roboto_500Medium',
+    // fontFamily: 'Roboto_500Medium',
     color: '#2e2e2e',
     fontSize: 16,
     lineHeight: 24,
     letterSpacing: 0.15,
   },
   buttonTextActive: {
-    fontFamily: 'Roboto_500Medium',
+    // fontFamily: 'Roboto_500Medium',
     color: '#2e2e2e',
     fontSize: 16,
     lineHeight: 24,

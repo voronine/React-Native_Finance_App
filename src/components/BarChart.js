@@ -59,7 +59,7 @@ const GroupedBars = () => {
                 marginTop: 10,
                 color: '#1D1F22',
                 fontSize: 12,
-                fontWeight: 400,
+                fontWeight: '400',
                 opacity: 0.7,
                 marginBottom: 15,
               }}>

@@ -5,10 +5,13 @@ import GroupedBars from './BarChart';
 import MenuSquare from './MenuSquare';
 import ModalComponent from './ModalComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ModalExpense from './ModalExpense';
 
 const MainPage = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleExpense, setModalVisibleExpense] = useState(false);
+
 
   useEffect(() => {
     fetchDataFromAsyncStorage();
@@ -40,6 +43,14 @@ const MainPage = () => {
     setModalVisible(false);
   };
 
+  const openModalExpense = () => {
+    setModalVisibleExpense(true);
+  };
+
+  const closeModalExpense = () => {
+    setModalVisibleExpense(false);
+  };
+
   let income = 1345;
   let arent = 345;
   let currency = '$';
@@ -59,7 +70,7 @@ const MainPage = () => {
       <View style={styles.main}>
         <View style={styles.bottomContainer}>
           <View style={styles.square}>
-            <MenuSquare currentPage={''} onAddExpenses={openModal} />
+            <MenuSquare currentPage={''} onAddIncome={openModal} onAddExpense={openModalExpense}/>
             <View style={styles.transactionsBlock}>
               <View style={styles.mapOut}>
                 {/* Изображение и текст для "Аренда" */}
@@ -77,6 +88,7 @@ const MainPage = () => {
         <GroupedBars />
       </View>
       <ModalComponent visible={modalVisible} onClose={closeModal} />
+      <ModalExpense visible={modalVisibleExpense} onClose={closeModalExpense} />
     </ScrollView>
   );
 };
@@ -130,12 +142,12 @@ const styles = StyleSheet.create({
     color: '#222222',
     opacity: 0.34,
     fontSize: 12,
-    fontFamily: 'Roboto_500Medium',
+    // fontFamily: 'Roboto_500Medium',
   },
   outCount: {
     fontSize: 14,
     letterSpacing: 0.1,
-    fontFamily: 'Roboto_500Medium',
+    // fontFamily: 'Roboto_500Medium',
   },
 });
 

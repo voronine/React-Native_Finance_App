@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-const MenuSquare = ({currentPage, onAddExpenses}) => {
+const MenuSquare = ({currentPage, onAddIncome, onAddExpense}) => {
   let budget = 42305;
   let currency = '$';
 
@@ -17,15 +17,19 @@ const MenuSquare = ({currentPage, onAddExpenses}) => {
         {currentPage !== 'income' && (
           <TouchableOpacity
             style={[styles.squareButton, styles.margin]}
-            onPress={onAddExpenses}
+            onPress={onAddExpense}
           >
             <Text style={styles.squareText}>Добавить расходы</Text>
           </TouchableOpacity>
         )}
         
         {currentPage !== 'expenses' && (
-        <TouchableOpacity style={styles.squareButton}>
-           <Text style={styles.squareText}>Добавить доходы</Text>
+          <TouchableOpacity
+            style={styles.squareButton}
+            onPress={onAddIncome} 
+          >
+            <Text style={styles.squareText}>
+              Добавить доходы</Text>
           </TouchableOpacity>
           )}
       </View>
@@ -49,12 +53,12 @@ const styles = StyleSheet.create({
     lineHeight: 48,
     color: '#283570',
     marginBottom: 4,
-    fontFamily: 'Roboto_500Medium',
+    // fontFamily: 'Roboto_500Medium',
   },
   budgetText: {
     fontSize: 16,
     color: '#282828',
-    fontFamily: 'Roboto_500Medium',
+    // fontFamily: 'Roboto_500Medium',
   },
   squareButtons: {
     flexDirection: 'row',
@@ -74,7 +78,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   squareText: {
-    fontFamily: 'Roboto_500Medium',
+    // fontFamily: 'Roboto_500Medium',
     color: '#4183b3',
     fontSize: 16,
   },
@@ -84,7 +88,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   transactionsText: {
-    fontFamily: 'Roboto_500Medium',
+    // fontFamily: 'Roboto_500Medium',
     fontSize: 16,
   },
 });

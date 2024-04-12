@@ -115,12 +115,12 @@ const styles = StyleSheet.create({
     color: '#222222',
     opacity: 0.34,
     fontSize: 12,
-    fontFamily: 'Roboto_500Medium',
+    // fontFamily: 'Roboto_500Medium',
   },
   outCount: {
     fontSize: 14,
     letterSpacing: 0.1,
-    fontFamily: 'Roboto_500Medium',
+    // fontFamily: 'Roboto_500Medium',
   },
   notation: {
     width: '100%',
@@ -133,13 +133,13 @@ const styles = StyleSheet.create({
     paddingBottom:  16,
   },
   notationTitle: {
-    fontWeight: 500,
+    fontWeight: '500',
     fontSize: 20,
     letterSpacing: 0.15,
     marginBottom: 10,
   },
   notationText: {
-    fontWeight: 400,
+    fontWeight: '400',
     fontSize: 16,
     letterSpacing: 0.5,
   },
