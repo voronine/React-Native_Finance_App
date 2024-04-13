@@ -1,19 +1,81 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, Image, StyleSheet, ScrollView, RefreshControl } from 'react-native';
-import { getTodayDate } from '../utils/randomDate';
 import MenuSquare from './MenuSquare';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ModalExpense from './ModalExpense';
+import List from './ListTransaction';
 
 const Expenses = () => {
-
-  let income = 1345;
-  let arent = 345;
-  let currency = '$';
-  const dataToDay = getTodayDate();
-
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleList, setModalVisibleList] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [incomes, setIncomes] = useState([]);
+  const [expenses, setExpenses] = useState([]);
+  const [budget, setBudget] = useState(null);
+
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const openModalList = () => {
+    setModalVisibleList(true);
+  };
+
+  const closeModalList = () => {
+    setModalVisibleList(false);
+  };
+
+  let currency = '$';
+
+  useEffect(() => {
+    calculateBudget();
+    fetchDataExpense();
+    fetchDataIncome();
+  }, []);
+
+  const fetchDataIncome = async () => {
+    try {
+      const incomeData = await AsyncStorage.getItem('transactions');
+      setIncomes(incomeData ? JSON.parse(incomeData) : []);
+    } catch (error) {
+      console.error('Error fetching income data from AsyncStorage:', error);
+    }
+  };
+
+  const fetchDataExpense = async () => {
+    try {
+      const expenseData = await AsyncStorage.getItem('transactionsExpense');
+      setExpenses(expenseData ? JSON.parse(expenseData) : []);
+    } catch (error) {
+      console.error('Error fetching expense data from AsyncStorage:', error);
+    }
+  };
+
+  const calculateBudget = () => {
+    const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0);
+    const totalExpense = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+    setBudget(totalIncome - totalExpense);
+  };
+
+  useEffect(() => {
+    if (!modalVisible) {
+      fetchDataIncome();
+      fetchDataExpense();
+    }
+  }, [modalVisible]);
+
+  useEffect(() => {
+    calculateBudget();
+  }, [incomes, expenses]);
 
   const onRefresh = () => {
-    // данные рефрешить которые приходят будем
+    fetchDataIncome();
+    fetchDataExpense();
+    calculateBudget();
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
@@ -35,22 +97,29 @@ const Expenses = () => {
       <View style={styles.bottomContainer}>
           <View style={styles.square}>
 
-            <MenuSquare currentPage={'expenses'}/>
+            <MenuSquare
+              currentPage={'expenses'}
+              onAddExpense={openModal}
+              openModalList={openModalList}
+              budget={budget}
+            />
 
-            <View style={styles.transactionsBlock}>
-              <View style={styles.mapOut}>
-                <Image
-                  style={styles.imageOut}
-                  source={require('../img/out.png')}
-                  resizeMode='contain'
-                />
-                <View style={styles.blockOut}>
-                  <Text style={styles.outText}>Аренда</Text>
-                  <Text style={styles.outData}>{dataToDay}</Text>
-                </View>
-              </View>
-                <Text style={styles.outCount}>-{arent}{currency}</Text>
-              </View>
+            {expenses?.map((transaction, index) => (
+                 <View key={index} style={styles.transactionsBlock}>
+                        <View style={styles.mapOut}>
+                          <Image
+                            style={styles.imageOut}
+                            source={require('../img/in.png')}
+                            resizeMode='contain'
+                          />
+                          <View style={styles.blockOut}>
+                            <Text style={styles.outText}>{transaction.category}</Text>
+                            <Text style={styles.outData}>{transaction.date}</Text>
+                          </View>
+                        </View>
+                        <Text style={transaction.category}>-{transaction.amount}{currency}</Text>
+                    </View>
+              ))}
           </View>
           
           <View style={styles.notation}>
@@ -64,9 +133,10 @@ const Expenses = () => {
                   resizeMode='contain'
                 />
           </View>
-
         </View>
       </View>
+      <ModalExpense visible={modalVisible} onClose={closeModal} />
+      <List visible={modalVisibleList} onClose={closeModalList} currentPage={'expenses'} />
       </ScrollView>
   );
 };

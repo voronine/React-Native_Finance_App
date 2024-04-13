@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, ScrollView, RefreshControl } from 'react-native';
-import { getTodayDate } from '../utils/randomDate';
 import GroupedBars from './BarChart';
 import MenuSquare from './MenuSquare';
 import ModalComponent from './ModalComponent';
@@ -11,28 +10,51 @@ const MainPage = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleExpense, setModalVisibleExpense] = useState(false);
-
+  const [incomes, setIncomes] = useState([]);
+  const [expenses, setExpenses] = useState([]);
+  const [budget, setBudget] = useState(null);
 
   useEffect(() => {
-    fetchDataFromAsyncStorage();
+    fetchDataExpense();
+    fetchDataIncome();
   }, []);
 
-  const fetchDataFromAsyncStorage = async () => {
+  const fetchDataIncome = async () => {
     try {
-      const data = await AsyncStorage.getItem('my_data_key');
-      if (data !== null) {
-        // setMyData(JSON.parse(data));
-      }
+      const incomeData = await AsyncStorage.getItem('transactions');
+      setIncomes(incomeData ? JSON.parse(incomeData) : []);
     } catch (error) {
-      console.error('Error fetching data from AsyncStorage:', error);
+      console.error('Error fetching income data from AsyncStorage:', error);
     }
   };
 
-  const onRefresh = () => {
+  const fetchDataExpense = async () => {
+    try {
+      const expenseData = await AsyncStorage.getItem('transactionsExpense');
+      setExpenses(expenseData ? JSON.parse(expenseData) : []);
+    } catch (error) {
+      console.error('Error fetching expense data from AsyncStorage:', error);
+    }
+  };
+
+  const calculateBudget = () => {
+    const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0);
+    const totalExpense = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+    setBudget(totalIncome - totalExpense);
+  };
+
+  useEffect(() => {
+    calculateBudget();
+  }, [incomes, expenses]);
+
+  const onRefresh = async () => {
     setRefreshing(true);
-    fetchDataFromAsyncStorage().then(() => {
+    await fetchDataExpense();
+    await fetchDataIncome();
+    setRefreshing(false);
+    setTimeout(() => {
       setRefreshing(false);
-    });
+    }, 400);
   };
 
   const openModal = () => {
@@ -51,11 +73,6 @@ const MainPage = () => {
     setModalVisibleExpense(false);
   };
 
-  let income = 1345;
-  let arent = 345;
-  let currency = '$';
-  const dataToDay = getTodayDate();
-
   return (
     <ScrollView
       style={styles.container}
@@ -70,7 +87,7 @@ const MainPage = () => {
       <View style={styles.main}>
         <View style={styles.bottomContainer}>
           <View style={styles.square}>
-            <MenuSquare currentPage={''} onAddIncome={openModal} onAddExpense={openModalExpense}/>
+            <MenuSquare currentPage={''} onAddIncome={openModal} onAddExpense={openModalExpense} budget={budget} />
             <View style={styles.transactionsBlock}>
               <View style={styles.mapOut}>
                 {/* Изображение и текст для "Аренда" */}
@@ -123,31 +140,6 @@ const styles = StyleSheet.create({
   mapOut: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  imageOut: {
-    height: 32,
-    width: 32,
-  },
-  blockOut: {
-    paddingLeft: 8,
-  },
-  outText: {
-    fontWeight: '400',
-    fontSize: 14,
-    lineHeight: 25,
-    letterSpacing: 0.25,
-  },
-  outData: {
-    letterSpacing: 0.4,
-    color: '#222222',
-    opacity: 0.34,
-    fontSize: 12,
-    // fontFamily: 'Roboto_500Medium',
-  },
-  outCount: {
-    fontSize: 14,
-    letterSpacing: 0.1,
-    // fontFamily: 'Roboto_500Medium',
   },
 });
 

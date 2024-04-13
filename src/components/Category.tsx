@@ -6,7 +6,7 @@ interface Category {
   name: string;
 }
 
-const Category = () => {
+const Categories = () => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [incomeCategories, setIncomeCategories] = useState<Category[]>([]);
   const [expenseCategories, setExpenseCategories] = useState<Category[]>([]);
@@ -15,55 +15,62 @@ const Category = () => {
   const [newCategory, setNewCategory] = useState<string>('');
   const [newCategoryExp, setNewCategoryExp] = useState<string>('');
 
-  useEffect(() => {
-    const loadCategories = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem('categories');
-        const loadedCategories = jsonValue ? JSON.parse(jsonValue) : { income: [], expense: [] };
-        setIncomeCategories(loadedCategories.income || []);
-        setExpenseCategories(loadedCategories.expense || []);
-      } catch (error) {
-        console.error('Error loading categories:', error);
-      } finally {
-        setRefreshing(false);
-      }
-    };
-
-    loadCategories();
-
-  }, [refreshing]);
-
-  const saveCategories = async (updatedCategories: { income: Category[]; expense: Category[] }) => {
+  const loadCategories = async () => {
     try {
-      await AsyncStorage.setItem('categories', JSON.stringify(updatedCategories));
+      const jsonIncome = await AsyncStorage.getItem('incomeCategories');
+      const jsonExpense = await AsyncStorage.getItem('expenseCategories');
+
+      const loadedIncomeCategories = jsonIncome ? JSON.parse(jsonIncome) : [];
+      const loadedExpenseCategories = jsonExpense ? JSON.parse(jsonExpense) : [];
+
+      setIncomeCategories(loadedIncomeCategories);
+      setExpenseCategories(loadedExpenseCategories);
     } catch (error) {
-      console.error('Error saving categories to AsyncStorage:', error);
+      console.error('Error loading categories:', error);
+    } finally {
+      setRefreshing(false);
     }
   };
 
-  const onRefresh = () => {
-    setRefreshing(true);
+  useEffect(() => {
+    loadCategories();
+  }, [refreshing]);
+
+  const saveIncomeCategories = async (categories: Category[]) => {
+    try {
+      await AsyncStorage.setItem('incomeCategories', JSON.stringify(categories));
+    } catch (error) {
+      console.error('Error saving income categories to AsyncStorage:', error);
+    }
+  };
+
+  const saveExpenseCategories = async (categories: Category[]) => {
+    try {
+      await AsyncStorage.setItem('expenseCategories', JSON.stringify(categories));
+    } catch (error) {
+      console.error('Error saving expense categories to AsyncStorage:', error);
+    }
   };
 
   const addIncomeCategory = async () => {
     if (newCategory.trim() !== '') {
       const newCat: Category = { name: newCategory };
-      const updatedCategories = { ...{ income: [...incomeCategories, newCat] }, expense: [...expenseCategories] };
-      setIncomeCategories(updatedCategories.income);
+      const updatedIncomeCategories = [...incomeCategories, newCat];
+      setIncomeCategories(updatedIncomeCategories);
       setNewCategory('');
       setModalVisibleIncome(false);
-      await saveCategories(updatedCategories);
+      await saveIncomeCategories(updatedIncomeCategories);
     }
   };
 
   const addExpenseCategory = async () => {
     if (newCategoryExp.trim() !== '') {
       const newExpCat: Category = { name: newCategoryExp };
-      const updatedCategories = { ...{ income: [...incomeCategories] }, expense: [...expenseCategories, newExpCat] };
-      setExpenseCategories(updatedCategories.expense);
+      const updatedExpenseCategories = [...expenseCategories, newExpCat];
+      setExpenseCategories(updatedExpenseCategories);
       setNewCategoryExp('');
       setModalVisibleExpense(false);
-      await saveCategories(updatedCategories);
+      await saveExpenseCategories(updatedExpenseCategories);
     }
   };
 
@@ -71,14 +78,18 @@ const Category = () => {
     const newCategoryList = [...incomeCategories];
     newCategoryList.splice(index, 1);
     setIncomeCategories(newCategoryList);
-    await saveCategories({ income: newCategoryList, expense: expenseCategories });
+    await saveIncomeCategories(newCategoryList);
   };
 
   const removeExpenseCategory = async (index: number) => {
     const newCategoryList = [...expenseCategories];
     newCategoryList.splice(index, 1);
     setExpenseCategories(newCategoryList);
-    await saveCategories({ income: incomeCategories, expense: newCategoryList });
+    await saveExpenseCategories(newCategoryList);
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
   };
 
   return (
@@ -240,4 +251,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Category;
+export default Categories;

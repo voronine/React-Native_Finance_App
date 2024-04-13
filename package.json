@@ -34,6 +34,7 @@
     "react-native-calendars": "^1.1304.1",
     "react-native-drop-shadow": "^1.0.0",
     "react-native-gesture-handler": "~2.14.0",
+    "react-native-get-random-values": "^1.11.0",
     "react-native-gifted-charts": "^1.4.9",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-reanimated": "~3.6.2",
@@ -42,7 +43,8 @@
     "react-native-svg": "^15.1.0",
     "react-native-vector-icons": "^10.0.3",
     "react-native-web": "~0.19.6",
-    "typescript": "^5.3.0"
+    "typescript": "^5.3.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

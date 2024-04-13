@@ -1,14 +1,18 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-const MenuSquare = ({currentPage, onAddIncome, onAddExpense}) => {
-  let budget = 42305;
-  let currency = '$';
-
+const MenuSquare = ({currentPage, onAddIncome, openModalList, onAddExpense, budget}) => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.budget}>{budget}{currency}</Text>
+        <Text style={{
+          fontSize: 34,
+          lineHeight: 48,
+          color: '#283570',
+          marginBottom: 4,
+        }}>
+          {budget !== null ? `${budget}` : 'Loading budget...'}
+        </Text>
         <Text style={styles.budgetText}>Ваш бюджет</Text>
       </View>
 
@@ -36,7 +40,7 @@ const MenuSquare = ({currentPage, onAddIncome, onAddExpense}) => {
 
        <View style={styles.transactions}>
         <Text style={styles.transactionsText}>Транзакции</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={openModalList}>
             <Text style={styles.squareText}>Все транзакции</Text>
           </TouchableOpacity>
        </View>
@@ -47,13 +51,6 @@ const MenuSquare = ({currentPage, onAddIncome, onAddExpense}) => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-  },
-  budget: {
-    fontSize: 34,
-    lineHeight: 48,
-    color: '#283570',
-    marginBottom: 4,
-    // fontFamily: 'Roboto_500Medium',
   },
   budgetText: {
     fontSize: 16,

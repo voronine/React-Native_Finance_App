@@ -30,10 +30,10 @@ const ModalExpense = ({ visible, onClose }) => {
 
   const fetchDataFromStorage = async () => {
     try {
-      const storedData = await AsyncStorage.getItem('categories');
+      const storedData = await AsyncStorage.getItem('expenseCategories');
       if (storedData) {
         const parsedData = JSON.parse(storedData);
-        setCategories(parsedData.income);
+        setCategories(parsedData);
       } else {
         console.log('No data found for the key "categories".');
       }
@@ -59,7 +59,6 @@ const ModalExpense = ({ visible, onClose }) => {
       const updatedTransactions = [...existingTransactions, newTransaction];
 
       await AsyncStorage.setItem('transactionsExpense', JSON.stringify(updatedTransactions));
-      console.log('transactions Expense', JSON.stringify(updatedTransactions));
       onClose();
       setEnteredAmount('');
     } catch (error) {

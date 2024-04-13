@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, Button, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Calendar } from 'react-native-calendars';
@@ -30,10 +30,11 @@ const ModalComponent = ({ visible, onClose }) => {
 
   const fetchDataFromStorage = async () => {
     try {
-      const storedData = await AsyncStorage.getItem('categories');
+      const storedData = await AsyncStorage.getItem('incomeCategories');
       if (storedData) {
         const parsedData = JSON.parse(storedData);
-        setCategories(parsedData.income);
+        setCategories(parsedData);
+        
       } else {
         console.log('No data found for the key "categories".');
       }
@@ -59,7 +60,6 @@ const ModalComponent = ({ visible, onClose }) => {
       const updatedTransactions = [...existingTransactions, newTransaction];
 
       await AsyncStorage.setItem('transactions', JSON.stringify(updatedTransactions));
-      console.log('transactions', JSON.stringify(updatedTransactions));
       onClose();
       setEnteredAmount('');
     } catch (error) {
