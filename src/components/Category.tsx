@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, Image, ScrollView, RefreshControl, TouchableOpacity, Modal, TextInput, Button } from 'react-native';
+import { Text, View, StyleSheet, Image, ScrollView, RefreshControl, TouchableOpacity, Modal, TextInput, Button, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Category {
@@ -79,6 +79,8 @@ const Categories = () => {
     newCategoryList.splice(index, 1);
     setIncomeCategories(newCategoryList);
     await saveIncomeCategories(newCategoryList);
+    Alert.alert('Категория успешно удалена!');
+
   };
 
   const removeExpenseCategory = async (index: number) => {
@@ -86,6 +88,8 @@ const Categories = () => {
     newCategoryList.splice(index, 1);
     setExpenseCategories(newCategoryList);
     await saveExpenseCategories(newCategoryList);
+    Alert.alert('Категория успешно удалена!');
+
   };
 
   const onRefresh = () => {

@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
+let currency = '$';
+
 const MenuSquare = ({currentPage, onAddIncome, openModalList, onAddExpense, budget}) => {
   return (
     <View style={styles.container}>
@@ -11,7 +13,7 @@ const MenuSquare = ({currentPage, onAddIncome, openModalList, onAddExpense, budg
           color: '#283570',
           marginBottom: 4,
         }}>
-          {budget !== null ? `${budget}` : 'Loading budget...'}
+          {budget !== null ? `${budget}${currency}` : 'Loading budget...'}
         </Text>
         <Text style={styles.budgetText}>Ваш бюджет</Text>
       </View>
@@ -55,7 +57,6 @@ const styles = StyleSheet.create({
   budgetText: {
     fontSize: 16,
     color: '#282828',
-    // fontFamily: 'Roboto_500Medium',
   },
   squareButtons: {
     flexDirection: 'row',
@@ -75,7 +76,6 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   squareText: {
-    // fontFamily: 'Roboto_500Medium',
     color: '#4183b3',
     fontSize: 16,
   },
@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   transactionsText: {
-    // fontFamily: 'Roboto_500Medium',
     fontSize: 16,
   },
 });

@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
-const List = ({ visible, onClose, currentPage }) => {
+const ListAll = ({ visible, onClose, currentPage, allTransactions }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const currency = '$';
@@ -18,25 +18,14 @@ const List = ({ visible, onClose, currentPage }) => {
     fetchDataFromStorage();
   }, [visible]);
 
-  const keyFetch = currentPage === 'income' ? 'transactions' : 'transactionsExpense';
-
   const fetchDataFromStorage = async () => {
-    try {
-      const storedData = await AsyncStorage.getItem(keyFetch);
-      if (storedData) {
-        const parsedData = JSON.parse(storedData);
-        const transactionsWithIds = parsedData?.map((transaction) => ({
-          ...transaction,
-          id: generateUniqueId(),
-        }));
-        setTransactions(transactionsWithIds);
-      } else {
-        console.log('No data found for the key "transactions".');
-      }
-    } catch (error) {
-      console.error('Error fetching data from AsyncStorage:', error);
-    }
+    const transactionsWithIds = allTransactions?.map((transaction) => ({
+      ...transaction,
+      id: generateUniqueId(),
+    }));
+    setTransactions(transactionsWithIds);
   };
+
 
   const generateUniqueId = () => {
     return uuidv4();
@@ -92,49 +81,31 @@ const List = ({ visible, onClose, currentPage }) => {
             </TouchableOpacity>
 
             <View style={styles.titleView}>
-              <Text style={styles.title}>{title}</Text>
+              <Text style={styles.title}>Все транзакции</Text>
             </View>
 
             <Text style={styles.secondTitle}>Транзакции</Text>
 
-            {transactions?.map((transaction) => (
-              <View key={transaction.id} style={styles.transactionsBlock}>
-                <View style={styles.containerTransaction}>
-                  <View style={styles.mapOut}>
-                    
-                    {currentPage === 'income' ?
-                      (
-                        < Image
-                      style={styles.imageOut}
-                      source={require('../img/in.png')}
-                      resizeMode="contain"
-                      />
-                      ) : (
-                        < Image
-                        style={styles.imageOut}
-                        source={require('../img/out.png')}
-                        resizeMode="contain"
-                        />
-                    )
-                    }
+            {transactions.map((transaction, index) => (
+              <View key={index} style={styles.transactionsBlock}>
+                <View style={styles.mapOut}>
+                  <Image
+                    style={styles.imageOut}
+                    source={transaction.isIncome ? require('../img/in.png') : require('../img/out.png')}
+                    resizeMode='contain'
+                  />
 
-                    <View style={styles.blockOut}>
-                      <Text style={styles.outText}>{transaction.category}</Text>
-                      <Text style={styles.outData}>{transaction.date}</Text>
-                    </View>
+                  <View style={styles.blockOut}>
+                    <Text style={styles.outText}>{transaction.category}</Text>
+                    <Text style={styles.outData}>{transaction.date}</Text>
                   </View>
                 </View>
-
-                <Text style={styles.outCount}>{minPl}{transaction.amount}{currency}</Text>
-
-                <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteTransaction(transaction.id)}>
-                    <Image
-                    source={require('../img/delete.png')}
-                    resizeMode='contain'
-                   />
-                </TouchableOpacity>
+                <Text style={transaction.isIncome ? styles.incomeText : styles.expenseText}>
+                  {transaction.isIncome ? '+' : '-'}{transaction.amount}{currency}
+                </Text>
               </View>
             ))}
+            
           </View>
         </TouchableOpacity>
       </ScrollView>
@@ -220,7 +191,13 @@ const styles = StyleSheet.create({
   containerTransaction: {
     width: '65%',
     justifyContent: 'space-between',
-  }
+  },
+  incomeText: {
+    color: 'green',
+  },
+  expenseText: {
+    color: 'red',
+  },
 });
 
-export default List;
+export default ListAll;

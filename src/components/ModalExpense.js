@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, Button, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, Button, TextInput, ScrollView, RefreshControl } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Calendar } from 'react-native-calendars';
@@ -10,6 +10,8 @@ const ModalExpense = ({ visible, onClose }) => {
   const [categories, setCategories] = useState([]);
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
+
 
   useEffect(() => {
     fetchDataFromStorage();
@@ -75,6 +77,14 @@ const ModalExpense = ({ visible, onClose }) => {
     setIsCalendarVisible(false);
   };
 
+    const onRefresh = () => {
+    fetchDataFromStorage();
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 400);
+  };
+
   return (
     <Modal
       animationType="slide"
@@ -85,6 +95,16 @@ const ModalExpense = ({ visible, onClose }) => {
         setIsCalendarVisible(false);
       }}
     >
+        <ScrollView
+            style={{ height: '100%', width: '100%' }}
+            refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={['#9Bd35A', '#689F38']}
+          />
+        }
+      >
       <TouchableOpacity
         style={styles.modalBackground}
         activeOpacity={1}
@@ -151,6 +171,7 @@ const ModalExpense = ({ visible, onClose }) => {
           </View>
         </View>
       </TouchableOpacity>
+      </ScrollView>
     </Modal>
   );
 };
@@ -161,6 +182,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
+    height: 900, 
   },
   modalContainer: {
     width: '98%',
@@ -265,7 +287,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 10,
-    padding: 5,
+    padding: 10,
   },
 });
 

@@ -82,6 +82,13 @@ const Expenses = () => {
     }, 400);
   };
 
+  const getLast4Transactions = () => {
+    const reversedIncomes = [...expenses].reverse();
+    return reversedIncomes.slice(0, 4);
+  };
+
+  const last4Transactions = getLast4Transactions();
+
   return (
     <ScrollView
        style={styles.container}
@@ -104,12 +111,12 @@ const Expenses = () => {
               budget={budget}
             />
 
-            {expenses?.map((transaction, index) => (
+            {last4Transactions?.map((transaction, index) => (
                  <View key={index} style={styles.transactionsBlock}>
                         <View style={styles.mapOut}>
                           <Image
                             style={styles.imageOut}
-                            source={require('../img/in.png')}
+                            source={require('../img/out.png')}
                             resizeMode='contain'
                           />
                           <View style={styles.blockOut}>

@@ -84,6 +84,13 @@ const Income = () => {
   };
   
   const currency = '$';
+
+  const getLast4Transactions = () => {
+    const reversedIncomes = [...incomes].reverse();
+    return reversedIncomes.slice(0, 4);
+  };
+
+  const last4Transactions = getLast4Transactions();
   
   return (
     <ScrollView
@@ -107,7 +114,7 @@ const Income = () => {
               budget={budget}
             />
 
-              {incomes?.map((transaction, index) => (
+              {last4Transactions?.map((transaction, index) => (
                  <View key={index} style={styles.transactionsBlock}>
                         <View style={styles.mapOut}>
                           <Image
@@ -122,7 +129,7 @@ const Income = () => {
                         </View>
                         <Text style={transaction.category}>+{transaction.amount}{currency}</Text>
                     </View>
-                    ))}
+                 ))}
           </View>
           
         <View style={styles.notation}>
