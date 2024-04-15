@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
-    borderBottomWidth: 0,
   },
   button: {
     justifyContent: 'center',
@@ -57,14 +56,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   buttonText: {
-    // fontFamily: 'Roboto_500Medium',
     color: '#2e2e2e',
     fontSize: 16,
     lineHeight: 24,
     letterSpacing: 0.15,
   },
   buttonTextActive: {
-    // fontFamily: 'Roboto_500Medium',
     color: '#2e2e2e',
     fontSize: 16,
     lineHeight: 24,

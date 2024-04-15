@@ -1,47 +1,182 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {View, Text} from 'react-native';
-import {BarChart} from 'react-native-gifted-charts';
+import { BarChart } from 'react-native-gifted-charts';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const GroupedBars = () => {
-    const barData = [
+
+  const [incomes, setIncomes] = useState([]);
+  const [expenses, setExpenses] = useState([]);
+
+  const [incomesBar, setIncomesBar] = useState([]);
+  const [expensesBar, setExpensesBar] = useState([]);
+
+  const [barData, setBarData] = useState([]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchDataExpense();
+      await fetchDataIncome();
+      preparedData(incomesBar, expensesBar);
+    };
+    fetchData();
+  }, []);
+
+  const fetchDataIncome = async () => {
+    try {
+      const incomeData = await AsyncStorage.getItem('transactions');
+      const parsedIncomeData = incomeData ? JSON.parse(incomeData) : [];
+      const incomeTransactions = parsedIncomeData.map(transaction => ({
+        ...transaction,
+        isIncome: true
+      }));
+      setIncomes(incomeTransactions);
+    } catch (error) {
+      console.error('Error fetching income data from AsyncStorage:', error);
+    }
+  };
+
+  const fetchDataExpense = async () => {
+    try {
+      const expenseData = await AsyncStorage.getItem('transactionsExpense');
+      const parsedExpenseData = expenseData ? JSON.parse(expenseData) : [];
+      const expenseTransactions = parsedExpenseData.map(transaction => ({
+        ...transaction,
+        isIncome: false
+      }));
+      setExpenses(expenseTransactions);
+    } catch (error) {
+      console.error('Error fetching expense data from AsyncStorage:', error);
+    }
+  };
+
+  function calculateQuarterlyExpenses(expenses) {
+    const today = new Date();
+    const currentQuarter = Math.floor(today.getMonth() / 3);
+    const quarterlyExpenses = [0, 0, 0, 0];
+  
+    expenses?.forEach(expense => {
+      const expenseDate = new Date(expense.date);
+      const expenseQuarter = Math.floor(expenseDate.getMonth() / 3);
+      if (expenseDate <= today && expenseQuarter <= currentQuarter) {
+        quarterlyExpenses[currentQuarter - expenseQuarter] += expense.amount;
+      }
+    });
+    setExpensesBar(quarterlyExpenses)
+    return quarterlyExpenses;
+  }
+
+function calculateQuarterlyIncomes(incomes) {
+  const today = new Date();
+  const currentQuarter = Math.floor(today.getMonth() / 3);
+  const quarterlyIncomes = [0, 0, 0, 0];
+
+  incomes?.forEach(income => {
+    const incomeDate = new Date(income.date);
+    const incomeQuarter = Math.floor(incomeDate.getMonth() / 3);
+    if (incomeDate <= today && incomeQuarter <= currentQuarter) {
+      quarterlyIncomes[currentQuarter - incomeQuarter] += income.amount;
+    }
+  });
+  setIncomesBar(quarterlyIncomes)
+  return quarterlyIncomes;
+}
+  
+  const preparedData = (income, expense) => {
+    const quarterlyIncomes = calculateQuarterlyIncomes(income);
+    const quarterlyExpenses = calculateQuarterlyExpenses(expense);
+    console.log(quarterlyIncomes, quarterlyExpenses);
+  };
+
+  function createQuarterData(incomesBar) {
+    const [q1, q2, q3, q4] = incomesBar
+    ;
+
+    const quarterData = [
         {
-          value: 6000,
-          label: 'Qtr 1',
-          spacing: 2,
-          labelWidth: 33,
-          labelTextStyle: {color: 'gray'},
-          frontColor: '#243B86',
-          alignItems:'start',
+            value: q1,
+            label: 'Qtr 1',
+            spacing: 2,
+            labelWidth: 33,
+            labelTextStyle: { color: 'gray' },
+            frontColor: '#243B86',
+            alignItems: 'start',
         },
-        {value: 4000, frontColor: '#009FFD'},
+        { value: q1, frontColor: '#009FFD' },
         {
-          value: 4000,
-          label: 'Qtr 2',
-          spacing: 2,
-          labelWidth: 33,
-          labelTextStyle: {color: 'gray'},
-          frontColor: '#243B86',
+            value: q2,
+            label: 'Qtr 2',
+            spacing: 2,
+            labelWidth: 33,
+            labelTextStyle: { color: 'gray' },
+            frontColor: '#243B86',
         },
-        {value: 2000, frontColor: '#009FFD'},
+        { value: q2, frontColor: '#009FFD' },
         {
-          value: 8000,
-          label: 'Qtr 3',
-          spacing: 2,
-          labelWidth: 33,
-          labelTextStyle: {color: 'gray'},
-          frontColor: '#243B86',
+            value: q3,
+            label: 'Qtr 3',
+            spacing: 2,
+            labelWidth: 33,
+            labelTextStyle: { color: 'gray' },
+            frontColor: '#243B86',
         },
-        {value: 6000, frontColor: '#009FFD'},
+        { value: q3, frontColor: '#009FFD' },
         {
-          value: 7000,
-          label: 'Qtr 4',
-          spacing: 2,
-          labelWidth: 33,
-          labelTextStyle: {color: 'gray'},
-          frontColor: '#243B86',
+            value: q4,
+            label: 'Qtr 4',
+            spacing: 2,
+            labelWidth: 33,
+            labelTextStyle: { color: 'gray' },
+            frontColor: '#243B86',
         },
-        {value: 3000, frontColor: '#009FFD'},
-      ];
+        { value: q4, frontColor: '#009FFD' },
+    ];
+
+    setBarData(quarterData)
+    return quarterData;
+  }
+
+    // const barData = [
+    //     {
+    //       value: 1000,
+    //       label: 'Qtr 1',
+    //       spacing: 2,
+    //       labelWidth: 33,
+    //       labelTextStyle: {color: 'gray'},
+    //       frontColor: '#243B86',
+    //       alignItems:'start',
+    //     },
+    //     {value: 9900, frontColor: '#009FFD'},
+    //     {
+    //       value: 4000,
+    //       label: 'Qtr 2',
+    //       spacing: 2,
+    //       labelWidth: 33,
+    //       labelTextStyle: {color: 'gray'},
+    //       frontColor: '#243B86',
+    //     },
+    //     {value: 2000, frontColor: '#009FFD'},
+    //     {
+    //       value: 8000,
+    //       label: 'Qtr 3',
+    //       spacing: 2,
+    //       labelWidth: 33,
+    //       labelTextStyle: {color: 'gray'},
+    //       frontColor: '#243B86',
+    //     },
+    //     {value: 6000, frontColor: '#009FFD'},
+    //     {
+    //       value: 7000,
+    //       label: 'Qtr 4',
+    //       spacing: 2,
+    //       labelWidth: 33,
+    //       labelTextStyle: {color: 'gray'},
+    //       frontColor: '#243B86',
+    //     },
+    //     {value: 3000, frontColor: '#009FFD'},
+    //   ];
 
       const renderTitle = () => {
           return(

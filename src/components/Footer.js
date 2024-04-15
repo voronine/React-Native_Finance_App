@@ -1,12 +1,37 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
-const Footer = () => {
+const Footer = ({ currentPage }) => {
+  const navigation = useNavigation();
+
+  const handleHomePress = () => {
+    navigation.navigate('Home');
+  };
+
+  const handleProfilePress = () => {
+    navigation.navigate('Profile');
+  };
+
   return (
     <View style={styles.footer}>
-      <Ionicons name="home" size={24} color={'blue'} style={styles.icon} />
-      <Ionicons name="person" size={24} color={'black'} style={styles.icon} />
+      <TouchableOpacity onPress={handleHomePress}>
+        <Ionicons
+          name="home"
+          size={24}
+          color={currentPage === 'Home' ? 'blue' : 'gray'}
+          style={styles.icon}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleProfilePress}>
+        <Ionicons
+          name="person"
+          size={24}
+          color={currentPage === 'Profile' ? 'blue' : 'gray'}
+          style={styles.icon}
+        />
+      </TouchableOpacity>
     </View>
   );
 };

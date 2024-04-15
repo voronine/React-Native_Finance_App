@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Image, Modal, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
-const ListAll = ({ visible, onClose, currentPage, allTransactions }) => {
+const ListAll = ({ visible, onClose, allTransactions }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const currency = '$';
@@ -31,19 +30,6 @@ const ListAll = ({ visible, onClose, currentPage, allTransactions }) => {
     return uuidv4();
   };
 
-  const handleDeleteTransaction = async (transactionId) => {
-    try {
-      const updatedTransactions = transactions.filter(
-        (transaction) => transaction.id !== transactionId
-      );
-      await AsyncStorage.setItem(keyFetch, JSON.stringify(updatedTransactions));
-      setTransactions(updatedTransactions);
-      Alert.alert('Транзакция успешно удалена!');
-    } catch (error) {
-      console.error('Ошибка удаления транзакции:', error);
-    }
-  };
-
   const onRefresh = () => {
     fetchDataFromStorage();
     setRefreshing(true);
@@ -51,9 +37,6 @@ const ListAll = ({ visible, onClose, currentPage, allTransactions }) => {
       setRefreshing(false);
     }, 400);
   };
-
-  const title = currentPage === 'income' ? 'Доходы' : 'Расходы';
-  const minPl = currentPage === 'income' ? '+' : '-';
 
   return (
     <Modal
@@ -77,7 +60,7 @@ const ListAll = ({ visible, onClose, currentPage, allTransactions }) => {
         <TouchableOpacity style={styles.modalBackground} activeOpacity={1} >
           <View style={styles.modalContainer}>
             <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-              <Ionicons name="close" size={24} color="gray" />
+              <Ionicons name="close" size={28} color="gray" />
             </TouchableOpacity>
 
             <View style={styles.titleView}>

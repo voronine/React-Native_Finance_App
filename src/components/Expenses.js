@@ -103,7 +103,6 @@ const Expenses = () => {
     <View style={styles.main}>
       <View style={styles.bottomContainer}>
           <View style={styles.square}>
-
             <MenuSquare
               currentPage={'expenses'}
               onAddExpense={openModal}
@@ -149,6 +148,11 @@ const Expenses = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f7f7f7',
+    borderWidth: 0,
+  },
   bottomContainer: {
     width: '100%',
   },
@@ -159,7 +163,6 @@ const styles = StyleSheet.create({
   },
   square: {
     backgroundColor: 'white',
-    borderColor: 'black',
     borderRadius: 12,
     marginBottom: 26,
     paddingHorizontal: 16,

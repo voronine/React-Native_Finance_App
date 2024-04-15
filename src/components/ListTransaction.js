@@ -29,13 +29,25 @@ const List = ({ visible, onClose, currentPage }) => {
           ...transaction,
           id: generateUniqueId(),
         }));
-        setTransactions(transactionsWithIds);
+        
+        setTransactions(getSortData(transactionsWithIds));
+
       } else {
         console.log('No data found for the key "transactions".');
       }
     } catch (error) {
       console.error('Error fetching data from AsyncStorage:', error);
     }
+  };
+
+  const getSortData = (transactionsWithIds) => {
+    transactionsWithIds.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB - dateA;
+    });
+
+    return transactionsWithIds;
   };
 
   const generateUniqueId = () => {
@@ -88,7 +100,7 @@ const List = ({ visible, onClose, currentPage }) => {
         <TouchableOpacity style={styles.modalBackground} activeOpacity={1} >
           <View style={styles.modalContainer}>
             <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-              <Ionicons name="close" size={24} color="gray" />
+              <Ionicons name="close" size={28} color="gray" />
             </TouchableOpacity>
 
             <View style={styles.titleView}>

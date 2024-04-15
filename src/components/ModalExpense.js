@@ -111,7 +111,7 @@ const ModalExpense = ({ visible, onClose }) => {
       >
         <View style={styles.modalContainer}>
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <Ionicons name="close" size={24} color="gray" />
+            <Ionicons name="close" size={28} color="gray" />
           </TouchableOpacity>
           <View style={styles.containerModalTitle}>
             <Text style={styles.modalTitle}>Добавить расходы</Text>

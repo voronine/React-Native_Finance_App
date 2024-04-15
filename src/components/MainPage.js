@@ -7,12 +7,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ModalExpense from './ModalExpense';
 import ListAll from './ListAll';
 
-
 const MainPage = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleExpense, setModalVisibleExpense] = useState(false);
   const [modalVisibleList, setModalVisibleList] = useState(false);
+
   const [incomes, setIncomes] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [budget, setBudget] = useState(null);
@@ -28,7 +28,7 @@ const MainPage = () => {
       const parsedIncomeData = incomeData ? JSON.parse(incomeData) : [];
       const incomeTransactions = parsedIncomeData.map(transaction => ({
         ...transaction,
-        isIncome: true // Add property to indicate income
+        isIncome: true
       }));
       setIncomes(incomeTransactions);
     } catch (error) {
@@ -93,9 +93,15 @@ const MainPage = () => {
 
   const allTransactions = [...incomes, ...expenses];
 
+
   const getLast2Transactions = () => {
-    const reversedTransactions = allTransactions.slice().reverse();
-    return reversedTransactions.slice(0, 2);
+    allTransactions.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB - dateA;
+    });
+
+    return allTransactions;
   };
 
   const last2Transactions = getLast2Transactions();
@@ -141,10 +147,12 @@ const MainPage = () => {
                   {transaction.isIncome ? '+' : '-'}{transaction.amount}{currency}
                 </Text>
               </View>
-            ))}
+            )).slice(0,2)}
           </View>
         </View>
-        <GroupedBars />
+        <View style={styles.square}>
+          <GroupedBars />
+        </View>
       </View>
       <ModalComponent visible={modalVisible} onClose={closeModal} />
       <ModalExpense visible={modalVisibleExpense} onClose={closeModalExpense} />
@@ -156,21 +164,21 @@ const MainPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  main: {
-    flex: 1,
-    paddingHorizontal: 24,
-    marginTop: 27,
+    backgroundColor: '#f7f7f7',
+    borderWidth: 0,
   },
   bottomContainer: {
     width: '100%',
   },
+  main: {
+    flex: 1,
+    paddingHorizontal: 24,
+    marginTop: 20,
+  },
   square: {
     backgroundColor: 'white',
-    borderColor: 'black',
     borderRadius: 12,
-    marginBottom: 26,
+    marginBottom: 20,
     paddingHorizontal: 16,
     paddingTop: 14,
   },
