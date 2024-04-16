@@ -113,11 +113,13 @@ const ModalComponent = ({ visible, onClose }) => {
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
             <Ionicons name="close" size={28} color="gray" />
           </TouchableOpacity>
+            
           <View style={styles.containerModalTitle}>
             <Text style={styles.modalTitle}>Добавить доходы</Text>
-          </View>
+            </View>
+            
           <View style={styles.viewCenter}>
-          <Text style={styles.chooseCategory}>Выберите категорию</Text>
+            <Text style={styles.chooseCategory}>Выберите категорию</Text>
           <View style={styles.checkboxContainer}>
             {categories?.map((category, index) => (
               <TouchableOpacity

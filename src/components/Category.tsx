@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, Image, ScrollView, RefreshControl, TouchableOpacity, Modal, TextInput, Button, Alert } from 'react-native';
+import { Text, View, StyleSheet, Image, ScrollView, RefreshControl, TouchableOpacity, Modal, TextInput, Button, Alert, TouchableOpacityComponent } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons } from '@expo/vector-icons';
+
 
 interface Category {
   name: string;
@@ -161,18 +163,43 @@ const Categories = () => {
         visible={modalVisibleIncome}
         onRequestClose={() => setModalVisibleIncome(false)}
       >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <TextInput
-              style={styles.input}
-              placeholder="Введите название категории"
-              value={newCategory}
-              onChangeText={(text) => setNewCategory(text)}
-            />
-            <Button title="Добавить" onPress={addIncomeCategory} />
-            <Button title="Отмена" onPress={() => setModalVisibleIncome(false)} />
+        <TouchableOpacity
+          style={styles.modalBackground}
+          activeOpacity={1}
+        >
+          <View style={styles.modalContainer}>
+
+            <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisibleIncome(false)}>
+              <Ionicons name="close" size={28} color="gray" />
+            </TouchableOpacity>
+
+            <View style={styles.containerModalTitle}>
+              <Text style={styles.modalTitle}>Новая категория доходов</Text>
+            </View>
+
+            <View style={styles.containerSecondTitle}>
+              <Text style={styles.modalTitle}>Название категории</Text>
+            </View>
+
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Введите название категории"
+                  value={newCategoryExp}
+                  onChangeText={(text) => setNewCategoryExp(text)}
+                  placeholderTextColor='rgba(34, 34, 34, 0.6)'
+
+                />
+                <View style={styles.containerButtonAdd}>
+                  <TouchableOpacity style={styles.addButton} onPress={addIncomeCategory}>
+                    <Text style={styles.addButtonText}>Добавить</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </Modal>
 
       <Modal
@@ -181,18 +208,43 @@ const Categories = () => {
         visible={modalVisibleExpense}
         onRequestClose={() => setModalVisibleExpense(false)}
       >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <TextInput
-              style={styles.input}
-              placeholder="Введите название категории"
-              value={newCategoryExp}
-              onChangeText={(text) => setNewCategoryExp(text)}
-            />
-            <Button title="Добавить" onPress={addExpenseCategory} />
-            <Button title="Отмена" onPress={() => setModalVisibleExpense(false)} />
+        <TouchableOpacity
+          style={styles.modalBackground}
+          activeOpacity={1}
+        >
+          <View style={styles.modalContainer}>
+
+            <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisibleExpense(false)}>
+              <Ionicons name="close" size={28} color="gray" />
+            </TouchableOpacity>
+
+            <View style={styles.containerModalTitle}>
+              <Text style={styles.modalTitle}>Новая категория расходов</Text>
+            </View>
+
+            <View style={styles.containerSecondTitle}>
+              <Text style={styles.modalTitle}>Название категории</Text>
+            </View>
+
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Введите название категории"
+                  value={newCategoryExp}
+                  onChangeText={(text) => setNewCategoryExp(text)}
+                  placeholderTextColor='rgba(34, 34, 34, 0.6)'
+
+                />
+                <View style={styles.containerButtonAdd}>
+                  <TouchableOpacity style={styles.addButton} onPress={addExpenseCategory}>
+                    <Text style={styles.addButtonText}>Добавить</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </Modal>
     </ScrollView>
   );
@@ -221,38 +273,70 @@ const styles = StyleSheet.create({
   deleteButton: {
     marginLeft: 10,
   },
-  addButton: {
-    backgroundColor: '#007AFF',
-    padding: 10,
-    alignItems: 'center',
-    marginTop: 12,
-    borderRadius: 50,
-  },
-  addButtonText: {
-    color: '#FFF',
-    fontSize: 16,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
   modalContent: {
     backgroundColor: '#FFF',
     padding: 20,
     borderRadius: 10,
-    width: '80%',
+    width: '100%',
     alignItems: 'center',
   },
   input: {
+    height: 48,
+    width: 350,
     borderWidth: 1,
-    borderColor: '#CCC',
+    borderColor: 'rgba(180, 180, 180, 0.08)',
+    paddingHorizontal: 10,
     borderRadius: 5,
-    width: '100%',
-    padding: 10,
-    marginBottom: 20,
+    backgroundColor: 'rgba(180, 180, 180, 0.08)',
+    marginBottom: 32,
+    color: 'black',
   },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 900,
+  },
+  modalContainer: {
+    width: '98%',
+    height: '85%',
+    backgroundColor: 'white',
+    padding: 24,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    padding: 10,
+  },
+  containerModalTitle: {
+    justifyContent: 'center',
+    marginBottom: 20,
+    paddingBottom: 48,
+  },
+  modalTitle: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  addButton: {
+    backgroundColor: '#0a83dc',
+    borderRadius: 50,
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  containerButtonAdd: {
+    width: 350,
+  },
+  addButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  containerSecondTitle: {
+  }
 });
 
 export default Categories;

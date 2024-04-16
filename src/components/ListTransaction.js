@@ -126,8 +126,7 @@ const List = ({ visible, onClose, currentPage }) => {
                         source={require('../img/out.png')}
                         resizeMode="contain"
                         />
-                    )
-                    }
+                    )}
 
                     <View style={styles.blockOut}>
                       <Text style={styles.outText}>{transaction.category}</Text>
@@ -139,11 +138,8 @@ const List = ({ visible, onClose, currentPage }) => {
                 <Text style={styles.outCount}>{minPl}{transaction.amount}{currency}</Text>
 
                 <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteTransaction(transaction.id)}>
-                    <Image
-                    source={require('../img/delete.png')}
-                    resizeMode='contain'
-                   />
-                </TouchableOpacity>
+              <Ionicons name="close" size={28} color="gray" />
+            </TouchableOpacity>
               </View>
             ))}
           </View>
