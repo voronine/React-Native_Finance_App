@@ -4,6 +4,7 @@ import MenuSquare from './MenuSquare';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ModalExpense from './ModalExpense';
 import List from './ListTransaction';
+import Notation from './Notation';
 
 const Expenses = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -127,21 +128,12 @@ const Expenses = () => {
                     </View>
               ))}
           </View>
-          
-          <View style={styles.notation}>
-            <Text style={styles.notationTitle}>Уведомление о расходах</Text>
-            <Text>
-              За последний месяц ваши расходы снизились на 5%!
-            </Text>
-            <Image
-                  style={styles.imageNotation}
-                  source={require('../img/expensive.png')}
-                  resizeMode='contain'
-                />
-          </View>
+
+          <Notation incomes={incomes} expenses={expenses} currentPage={'income'} />
+
         </View>
       </View>
-      <ModalExpense visible={modalVisible} onClose={closeModal} />
+      <ModalExpense visible={modalVisible} onClose={closeModal} /> 
       <List visible={modalVisibleList} onClose={closeModalList} currentPage={'expenses'} />
       </ScrollView>
   );
@@ -195,40 +187,15 @@ const styles = StyleSheet.create({
     color: '#222222',
     opacity: 0.34,
     fontSize: 12,
-    // fontFamily: 'Roboto_500Medium',
   },
   outCount: {
     fontSize: 14,
     letterSpacing: 0.1,
-    // fontFamily: 'Roboto_500Medium',
-  },
-  notation: {
-    width: '100%',
-    backgroundColor: 'white',
-    borderColor: 'black',
-    borderRadius: 12,
-    marginBottom: 26,
-    paddingHorizontal: 16,
-    paddingTop: 14,
-    paddingBottom:  16,
-  },
-  notationTitle: {
-    fontWeight: '500',
-    fontSize: 20,
-    letterSpacing: 0.15,
-    marginBottom: 10,
   },
   notationText: {
     fontWeight: '400',
     fontSize: 16,
     letterSpacing: 0.5,
-  },
-  imageNotation: {
-    marginTop: -50,
-    marginBottom: -8,
-    marginRight: -20,
-    alignSelf: 'flex-end',
-    borderRadius: 15 
   },
 });
 

@@ -61,7 +61,6 @@ const List = ({ visible, onClose, currentPage }) => {
       );
       await AsyncStorage.setItem(keyFetch, JSON.stringify(updatedTransactions));
       setTransactions(updatedTransactions);
-      Alert.alert('Транзакция успешно удалена!');
     } catch (error) {
       console.error('Ошибка удаления транзакции:', error);
     }

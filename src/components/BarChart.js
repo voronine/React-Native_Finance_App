@@ -86,14 +86,22 @@ const GroupedBars = () => {
       <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold' }}>
         Месячный график
       </Text>
-      <Text style={{ marginTop: 10, color: '#1D1F22', fontSize: 12, fontWeight: '400', opacity: 0.7, marginBottom: 15 }}>
+      <Text style={{ marginTop: 10, color: '#1D1F22', fontSize: 12, fontWeight: '400', opacity: 0.7, marginBottom: 10 }}>
         Отслеживайте ваши доходы и расходы
       </Text>
     </View>
   );
 
   return (
-    <View style={{ backgroundColor: 'white', borderColor: 'black', borderRadius: 12, marginBottom: 26, paddingHorizontal: 16, paddingTop: 14, height: 350 }}>
+    <View style={{
+      backgroundColor: 'white',
+      borderColor: 'black',
+      borderRadius: 12,
+      marginBottom: 26,
+      paddingHorizontal: 16,
+      paddingTop: 10,
+      height: 350
+    }}>
       {renderTitle()}
       <BarChart
         data={barData}
@@ -107,7 +115,7 @@ const GroupedBars = () => {
         yAxisTextStyle={{ color: '#1D1F22' }}
         noOfSections={10}
         maxValue={9000}
-        initialSpacing={40}
+        initialSpacing={25}
         stepValue={1000}
         showReferenceLine1
         referenceLine1Position={2000}

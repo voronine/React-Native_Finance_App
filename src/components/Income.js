@@ -4,6 +4,7 @@ import MenuSquare from './MenuSquare';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ModalComponent from './ModalComponent';
 import List from './ListTransaction';
+import Notation from './Notation';
 
 const Income = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -132,17 +133,7 @@ const Income = () => {
                  ))}
           </View>
           
-        <View style={styles.notation}>
-          <Text style={styles.notationTitle}>Уведомление о доходах</Text>
-          <Text>
-            За последний месяц ваше кафе принесло доход на 7% больше, чем в прошлом!
-          </Text>
-          <Image
-                style={styles.imageNotation}
-                source={require('../img/notation.png')}
-                resizeMode='contain'
-              />
-        </View>
+          <Notation income={incomes} expenses={expenses}/>
       </View>
       </View>
       <ModalComponent visible={modalVisible} onClose={closeModal} />
@@ -220,12 +211,10 @@ const styles = StyleSheet.create({
     color: '#222222',
     opacity: 0.34,
     fontSize: 12,
-    // fontFamily: 'Roboto_500Medium',
   },
   outCount: {
     fontSize: 14,
     letterSpacing: 0.1,
-    // fontFamily: 'Roboto_500Medium',
     color: '#1D1F22',
   },
 });

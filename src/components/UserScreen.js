@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, Linking, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Platform } from 'react-native';
 import { requestReview } from 'react-native-store-review';
 import { InAppReview } from 'react-native-in-app-review';
 import ModalAbout from './ModalAbout';
@@ -35,7 +35,6 @@ const UserProfileScreen = () => {
       }
     } catch (error) {
       console.error('Ошибка при открытии окна для отзыва:', error);
-      Alert.alert('Ошибка', 'Не удалось открыть окно для отзыва.');
     }
   };
 
