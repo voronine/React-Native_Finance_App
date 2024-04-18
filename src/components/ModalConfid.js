@@ -19,7 +19,7 @@ const ModalConfid = ({ visible, onClose }) => {
       >
         <View style={styles.modalContainer}>
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <Ionicons name="close" size={28} color="gray" />
+            <Ionicons name="close" size={30} color="gray" />
           </TouchableOpacity>
               <View style={styles.centrView}>
                 <Text style={styles.modalTitle}>Политика конфиденциальности</Text>
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
     padding: 10,
-    borderRadius: 50,
+    borderRadius: 80,
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
   },
 });

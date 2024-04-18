@@ -118,10 +118,7 @@ const Categories = () => {
               onPress={() => removeIncomeCategory(index)}
               style={styles.deleteButton}
             >
-              <Image
-                source={require('../img/delete.png')}
-                resizeMode='contain'
-              />
+              <Ionicons name="trash" size={20} color="#FF756E" />
             </TouchableOpacity>
           </View>
         ))}
@@ -142,10 +139,7 @@ const Categories = () => {
               onPress={() => removeExpenseCategory(index)}
               style={styles.deleteButton}
             >
-              <Image
-                source={require('../img/delete.png')}
-                resizeMode='contain'
-              />
+              <Ionicons name="trash" size={20} color="#FF756E" />
             </TouchableOpacity>
           </View>
         ))}
@@ -170,7 +164,7 @@ const Categories = () => {
           <View style={styles.modalContainer}>
 
             <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisibleIncome(false)}>
-              <Ionicons name="close" size={28} color="gray" />
+              <Ionicons name="close" size={30} color="gray" />
             </TouchableOpacity>
 
             <View style={styles.containerModalTitle}>
@@ -215,7 +209,7 @@ const Categories = () => {
           <View style={styles.modalContainer}>
 
             <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisibleExpense(false)}>
-              <Ionicons name="close" size={28} color="gray" />
+              <Ionicons name="close" size={30} color="gray" />
             </TouchableOpacity>
 
             <View style={styles.containerModalTitle}>
@@ -311,7 +305,7 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
     padding: 10,
-    borderRadius: 50,
+    borderRadius: 60,
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
   },
   containerModalTitle: {
@@ -328,6 +322,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     paddingVertical: 12,
     alignItems: 'center',
+    marginTop: 16,
   },
   containerButtonAdd: {
     width: 350,

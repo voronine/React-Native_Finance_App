@@ -99,7 +99,7 @@ const List = ({ visible, onClose, currentPage }) => {
         <TouchableOpacity style={styles.modalBackground} activeOpacity={1} >
           <View style={styles.modalContainer}>
             <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-              <Ionicons name="close" size={28} color="gray" />
+              <Ionicons name="close" size={30} color="gray" />
             </TouchableOpacity>
 
             <View style={styles.titleView}>

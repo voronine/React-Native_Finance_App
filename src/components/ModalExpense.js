@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, Button, TextInput, ScrollView, RefreshControl } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, Button, TextInput, ScrollView, RefreshControl, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Calendar } from 'react-native-calendars';
@@ -51,7 +51,7 @@ const ModalExpense = ({ visible, onClose }) => {
   const saveDataToStorage = async () => {
     try {
       if (!selectedCategory || !enteredAmount || !selectedDate) {
-        console.log('Please select a category, enter an amount, and choose a date.');
+        Alert.alert('Заполните все поля');
         return;
       }
 
@@ -111,7 +111,7 @@ const ModalExpense = ({ visible, onClose }) => {
       >
         <View style={styles.modalContainer}>
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <Ionicons name="close" size={28} color="gray" />
+            <Ionicons name="close" size={30} color="gray" />
           </TouchableOpacity>
           <View style={styles.containerModalTitle}>
             <Text style={styles.modalTitle}>Добавить расходы</Text>

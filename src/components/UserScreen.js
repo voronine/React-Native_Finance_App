@@ -4,6 +4,8 @@ import { requestReview } from 'react-native-store-review';
 import { InAppReview } from 'react-native-in-app-review';
 import ModalAbout from './ModalAbout';
 import ModalConfid from './ModalConfid';
+import { Ionicons } from '@expo/vector-icons';
+
 
 const UserProfileScreen = () => {
   const [modalVisible1, setModalVisible1] = useState(false);
@@ -43,29 +45,17 @@ const UserProfileScreen = () => {
       <View style={styles.bottomContainer}>
         <View style={styles.square}>
           <TouchableOpacity style={styles.link} onPress={handleReview}>
-            <Image
-              style={styles.imageOut}
-              source={require('../img/icon1.png')}
-              resizeMode='contain'
-            />
+            <Ionicons name="star" size={24} color="#0B81D9" />
             <Text style={styles.linkText}>Отправить отзыв</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.link} onPress={openModal1}>
-            <Image
-              style={styles.imageOut}
-              source={require('../img/icon2.png')}
-              resizeMode='contain'
-            />
+          <Ionicons name="information-circle" size={24} color="#0B81D9" />
             <Text style={styles.linkText}>О приложении</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.link} onPress={openModal3}>
-            <Image
-              style={styles.imageOut}
-              source={require('../img/icon3.png')}
-              resizeMode='contain'
-            />
+          <Ionicons name="shield-checkmark" size={24} color="#0B81D9" />
             <Text style={styles.linkText}>Политика конфиденциальности</Text>
           </TouchableOpacity>
         </View>
