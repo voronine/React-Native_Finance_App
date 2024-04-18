@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { View, StyleSheet, Text, ScrollView, RefreshControl, Image } from 'react-native';
 import GroupedBars from './BarChart';
 import MenuSquare from './MenuSquare';
@@ -17,10 +17,16 @@ const MainPage = () => {
   const [expenses, setExpenses] = useState([]);
   const [budget, setBudget] = useState(null);
 
+  const [dataChanged, setDataChanged] = useState(false);
   useEffect(() => {
     fetchDataExpense();
     fetchDataIncome();
   }, []);
+
+  useEffect(() => {
+    calculateBudget();
+    setDataChanged(false);
+  }, [incomes, expenses, dataChanged]);
 
   const fetchDataIncome = async () => {
     try {
@@ -31,6 +37,7 @@ const MainPage = () => {
         isIncome: true
       }));
       setIncomes(incomeTransactions);
+      setDataChanged(true);
     } catch (error) {
       console.error('Error fetching income data from AsyncStorage:', error);
     }
@@ -45,6 +52,7 @@ const MainPage = () => {
         isIncome: false
       }));
       setExpenses(expenseTransactions);
+      setDataChanged(true);
     } catch (error) {
       console.error('Error fetching expense data from AsyncStorage:', error);
     }
@@ -55,10 +63,6 @@ const MainPage = () => {
     const totalExpense = expenses.reduce((sum, expense) => sum + expense.amount, 0);
     setBudget(totalIncome - totalExpense);
   };
-
-  useEffect(() => {
-    calculateBudget();
-  }, [incomes, expenses]);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -93,18 +97,11 @@ const MainPage = () => {
 
   const allTransactions = [...incomes, ...expenses];
 
+  const last2Transactions = useMemo(() => {
+    const allTransactions = [...incomes, ...expenses];
+    return allTransactions.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 2);
+  }, [incomes, expenses]);;
 
-  const getLast2Transactions = () => {
-    allTransactions.sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-      return dateB - dateA;
-    });
-
-    return allTransactions;
-  };
-
-  const last2Transactions = getLast2Transactions();
   const currency = '$';
 
   return (
@@ -147,11 +144,11 @@ const MainPage = () => {
                   {transaction.isIncome ? '+' : '-'}{transaction.amount}{currency}
                 </Text>
               </View>
-            )).slice(0,2)}
+            ))}
           </View>
         </View>
         <View style={styles.square}>
-          <GroupedBars />
+          <GroupedBars incomes={incomes} expenses={expenses} dataChanged={dataChanged} />
         </View>
       </View>
       <ModalComponent visible={modalVisible} onClose={closeModal} />

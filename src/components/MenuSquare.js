@@ -25,7 +25,9 @@ const MenuSquare = ({currentPage, onAddIncome, openModalList, onAddExpense, budg
             style={[styles.squareButton, styles.margin]}
             onPress={onAddExpense}
           >
-            <Text style={styles.squareText}>Добавить расходы</Text>
+            <Text style={styles.squareText}>
+              Добавить расходы
+            </Text>
           </TouchableOpacity>
         )}
         
@@ -59,6 +61,7 @@ const styles = StyleSheet.create({
     color: '#282828',
   },
   squareButtons: {
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -77,7 +80,8 @@ const styles = StyleSheet.create({
   },
   squareText: {
     color: '#4183b3',
-    fontSize: 16,
+    fontSize: 14,
+    fontWeight: '500',
   },
   transactions: {
     flexDirection: 'row',

@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-const Footer = ({ currentPage }) => {
+const Footer = () => {
   const navigation = useNavigation();
+  const [activePage, setActivePage] = useState('Home');
 
   const handleHomePress = () => {
     navigation.navigate('Home');
+    setActivePage('Home');
   };
 
   const handleProfilePress = () => {
     navigation.navigate('Profile');
+    setActivePage('Profile');
   };
 
   return (
@@ -20,7 +23,7 @@ const Footer = ({ currentPage }) => {
         <Ionicons
           name="home"
           size={24}
-          color={currentPage === 'Home' ? 'blue' : 'gray'}
+          color={activePage === 'Home' ? '#4183b3' : 'gray'}
           style={styles.icon}
         />
       </TouchableOpacity>
@@ -28,7 +31,7 @@ const Footer = ({ currentPage }) => {
         <Ionicons
           name="person"
           size={24}
-          color={currentPage === 'Profile' ? 'blue' : 'gray'}
+          color={activePage === 'Profile' ? '#4183b3' : 'gray'}
           style={styles.icon}
         />
       </TouchableOpacity>

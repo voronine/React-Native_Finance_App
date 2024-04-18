@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { BarChart } from 'react-native-gifted-charts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const GroupedBars = () => {
+const GroupedBars = ({ incomes, expenses, dataChanged }) => {
   const [barData, setBarData] = useState([]);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const GroupedBars = () => {
     };
 
     fetchData();
-  }, []);
+  }, [incomes, expenses, dataChanged]);
 
   function calculateQuarterlyExpenses(expenses) {
     const today = new Date();
@@ -44,8 +44,8 @@ const GroupedBars = () => {
     expenses.forEach(expense => {
       const expenseDate = new Date(expense.date);
       const expenseQuarter = Math.floor(expenseDate.getMonth() / 3);
-      if (expenseDate <= today && expenseQuarter <= currentQuarter) {
-        quarterlyExpenses[currentQuarter - expenseQuarter] += expense.amount;
+      if (expenseDate.getFullYear() === today.getFullYear() && expenseQuarter <= currentQuarter) {
+        quarterlyExpenses[expenseQuarter] += expense.amount;
       }
     });
 
@@ -60,8 +60,8 @@ const GroupedBars = () => {
     incomes.forEach(income => {
       const incomeDate = new Date(income.date);
       const incomeQuarter = Math.floor(incomeDate.getMonth() / 3);
-      if (incomeDate <= today && incomeQuarter <= currentQuarter) {
-        quarterlyIncomes[currentQuarter - incomeQuarter] += income.amount;
+      if (incomeDate.getFullYear() === today.getFullYear() && incomeQuarter <= currentQuarter) {
+        quarterlyIncomes[incomeQuarter] += income.amount;
       }
     });
 
@@ -72,10 +72,18 @@ const GroupedBars = () => {
     const quarterData = [];
 
     ['Qtr 1', 'Qtr 2', 'Qtr 3', 'Qtr 4'].forEach((label, index) => {
-      quarterData.push(
-        { value: incomesBar[index], label, spacing: 2, labelWidth: 33, labelTextStyle: { color: 'gray' }, frontColor: '#243B86' },
-        { value: expensesBar[index], frontColor: '#009FFD' }
-      );
+      quarterData.push({
+        value: incomesBar[index],
+        label,
+        spacing: 2,
+        labelWidth: 33,
+        labelTextStyle: { color: 'gray' },
+        frontColor: '#243B86'
+      });
+      quarterData.push({
+        value: expensesBar[index],
+        frontColor: '#009FFD'
+      });
     });
 
     return quarterData;
@@ -84,7 +92,7 @@ const GroupedBars = () => {
   const renderTitle = () => (
     <View>
       <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold' }}>
-        Месячный график
+        Поквартальный график
       </Text>
       <Text style={{ marginTop: 10, color: '#1D1F22', fontSize: 12, fontWeight: '400', opacity: 0.7, marginBottom: 10 }}>
         Отслеживайте ваши доходы и расходы
@@ -106,7 +114,7 @@ const GroupedBars = () => {
       <BarChart
         data={barData}
         barWidth={9}
-        spacing={50}
+        spacing={35}
         roundedTop
         roundedBottom
         hideRules
@@ -129,14 +137,14 @@ const GroupedBars = () => {
       />
       <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <View style={{ height: 12, width: 12, borderRadius: 6, backgroundColor: '#243B86', marginRight: 8, marginLeft: 50 }} />
-          <Text style={{ width: 60, height: 16, color: 'lightgray' }}>
+          <View style={{ height: 12, width: 12, borderRadius: 6, backgroundColor: '#243B86', marginRight: 8, marginLeft: 50, marginTop: 15, }} />
+          <Text style={{ width: 60, height: 16, color: 'lightgray', marginTop: 15, }}>
             Доходы
           </Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <View style={{ height: 12, width: 12, borderRadius: 6, backgroundColor: '#009FFD', marginRight: 8 }} />
-          <Text style={{ width: 60, height: 16, color: 'lightgray' }}>
+          <View style={{ height: 12, width: 12, borderRadius: 6, backgroundColor: '#009FFD', marginRight: 8, marginTop: 15, }} />
+          <Text style={{ width: 60, height: 16, color: 'lightgray', marginTop: 15, }}>
             Расходы
           </Text>
         </View>
