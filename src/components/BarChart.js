@@ -92,7 +92,7 @@ const GroupedBars = ({ incomes, expenses, dataChanged }) => {
   const renderTitle = () => (
     <View>
       <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold' }}>
-        Поквартальный график
+        Месячный график
       </Text>
       <Text style={{ marginTop: 10, color: '#1D1F22', fontSize: 12, fontWeight: '400', opacity: 0.7, marginBottom: 10 }}>
         Отслеживайте ваши доходы и расходы

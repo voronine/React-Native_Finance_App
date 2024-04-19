@@ -23,7 +23,7 @@ const Footer = () => {
         <Ionicons
           name="home"
           size={24}
-          color={activePage === 'Home' ? '#4183b3' : 'gray'}
+          color={activePage === 'Home' ? '#0983DC' : 'gray'}
           style={styles.icon}
         />
       </TouchableOpacity>
@@ -31,7 +31,7 @@ const Footer = () => {
         <Ionicons
           name="person"
           size={24}
-          color={activePage === 'Profile' ? '#4183b3' : 'gray'}
+          color={activePage === 'Profile' ? '#0983DC' : 'gray'}
           style={styles.icon}
         />
       </TouchableOpacity>
