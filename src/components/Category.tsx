@@ -110,7 +110,14 @@ const Categories = () => {
       }
     >
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Категория доходов</Text>
+        <View style={styles.containerRow}>
+          <Text style={styles.sectionTitle}>Категории доходов</Text>
+          <Image
+            style={styles.imageOut}
+            source={require('../img/in.png')}
+            resizeMode='contain'
+          />
+        </View>
         {incomeCategories.map((category, index) => (
           <View key={index} style={styles.categoryItem}>
             <Text>{category.name}</Text>
@@ -131,7 +138,14 @@ const Categories = () => {
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Категории расходов</Text>
+        <View style={styles.containerRow}>
+          <Text style={styles.sectionTitle}>Категории расходов</Text>
+          <Image
+            style={styles.imageOut}
+            source={require('../img/out.png')}
+            resizeMode='contain'
+          />
+        </View>
         {expenseCategories.map((category, index) => (
           <View key={index} style={styles.categoryItem}>
             <Text>{category.name}</Text>
@@ -164,7 +178,7 @@ const Categories = () => {
           <View style={styles.modalContainer}>
 
             <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisibleIncome(false)}>
-              <Ionicons name="close" size={30} color="gray" />
+              <Ionicons name="close" size={35} color="gray" />
             </TouchableOpacity>
 
             <View style={styles.containerModalTitle}>
@@ -173,6 +187,11 @@ const Categories = () => {
 
             <View style={styles.containerSecondTitle}>
               <Text style={styles.modalTitle}>Название категории</Text>
+              <Image
+                style={styles.imageOut}
+                source={require('../img/in.png')}
+                resizeMode='contain'
+              />
             </View>
 
             <View style={styles.modalContainer}>
@@ -209,7 +228,7 @@ const Categories = () => {
           <View style={styles.modalContainer}>
 
             <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisibleExpense(false)}>
-              <Ionicons name="close" size={30} color="gray" />
+              <Ionicons name="close" size={35} color="gray" />
             </TouchableOpacity>
 
             <View style={styles.containerModalTitle}>
@@ -218,6 +237,11 @@ const Categories = () => {
 
             <View style={styles.containerSecondTitle}>
               <Text style={styles.modalTitle}>Название категории</Text>
+              <Image
+                style={styles.imageOut}
+                source={require('../img/out.png')}
+                resizeMode='contain'
+              />
             </View>
 
             <View style={styles.modalContainer}>
@@ -303,7 +327,7 @@ const styles = StyleSheet.create({
   closeButton: {
     position: 'absolute',
     top: 10,
-    right: 10,
+    right: 5,
     padding: 10,
     borderRadius: 60,
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
@@ -333,7 +357,18 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   containerSecondTitle: {
-  }
+    flexDirection: 'row',
+    gap: 10,
+    justifyContent: 'center',
+  },
+  containerRow: {
+    flexDirection: 'row',
+  },
+  imageOut: {
+    width: 30,
+    height: 30,
+    marginLeft: 20,
+  },
 });
 
 export default Categories;

@@ -107,8 +107,7 @@ const GroupedBars = ({ incomes, expenses, dataChanged }) => {
       borderRadius: 12,
       marginBottom: 26,
       paddingHorizontal: 16,
-      paddingTop: 10,
-      height: 350
+      height: 310
     }}>
       {renderTitle()}
       <BarChart
