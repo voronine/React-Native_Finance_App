@@ -107,7 +107,7 @@ const GroupedBars = ({ incomes, expenses, dataChanged }) => {
       borderRadius: 12,
       marginBottom: 26,
       paddingHorizontal: 16,
-      height: 310
+      height: 290
     }}>
       {renderTitle()}
       <BarChart
@@ -124,6 +124,7 @@ const GroupedBars = ({ incomes, expenses, dataChanged }) => {
         maxValue={9000}
         initialSpacing={25}
         stepValue={1000}
+        stepHeight={18}
         showReferenceLine1
         referenceLine1Position={2000}
         referenceLine1Config={{ color: 'gray', dashWidth: 2, dashGap: 3 }}

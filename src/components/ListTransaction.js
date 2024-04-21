@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: '95%',
-    height: '100%',
+    height: 3000,
     flex: 1,
     backgroundColor: 'white',
     borderRadius: 10,

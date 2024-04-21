@@ -11,10 +11,6 @@ const ListAll = ({ visible, onClose, allTransactions }) => {
 
   useEffect(() => {
     fetchDataFromStorage();
-  }, []);
-
-  useEffect(() => {
-    fetchDataFromStorage();
   }, [visible]);
 
   const fetchDataFromStorage = async () => {
@@ -22,9 +18,12 @@ const ListAll = ({ visible, onClose, allTransactions }) => {
       ...transaction,
       id: generateUniqueId(),
     }));
+
+    // Sort transactions by date in descending order (latest first)
+    transactionsWithIds.sort((a, b) => new Date(b.date) - new Date(a.date));
+
     setTransactions(transactionsWithIds);
   };
-
 
   const generateUniqueId = () => {
     return uuidv4();
@@ -103,11 +102,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 850,
+    height: "100%",
   },
   modalContainer: {
     width: '95%',
-    height: '100%',
+    height:3000,
     flex: 1,
     backgroundColor: 'white',
     borderRadius: 10,
